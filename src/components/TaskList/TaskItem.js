@@ -12,12 +12,9 @@ import DeleteButton from "../buttons/DeleteButton";
 import { TaskWrapper } from "../../styles";
 
 const TaskItem = ({ task }) => {
-  const completed = () => {
-    task.complete = !task.complete;
-  };
   return (
     <TaskWrapper>
-      <input type="checkbox" onClick={completed} />
+      <input type="checkbox" onClick={() => taskStore.updateTask(task)} />
       <p>{task.name}</p>
 
       {/* <UpdateButton item={item} /> */}

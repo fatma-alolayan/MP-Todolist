@@ -13,10 +13,14 @@ class TaskStore {
     }
   };
 
-  createTask = (newTask) => {
-    newTask.id = this.tasks[this.tasks.length - 1].id + 1;
-    newTask.complete = false;
-    this.tasks.push(newTask);
+  createTask = async (newTask) => {
+    try {
+      const res = await axios.post("http://localhost:8000/tasks", newTask);
+      newTask.complete = false;
+      this.tasks.push(newTask);
+    } catch (error) {
+      console.log("Taskstore -> fetchTasks -> error", error);
+    }
   };
 
   deleteTask = async (taskId) => {
@@ -24,7 +28,20 @@ class TaskStore {
       await axios.delete(`http://localhost:8000/tasks/${taskId}`);
       this.tasks = this.tasks.filter((task) => task.id !== +taskId);
     } catch (error) {
-      console.log();
+      console.log("Taskstore -> fetchTasks -> error", error);
+    }
+  };
+
+  updateTask = async (updatedTask) => {
+    try {
+      await axios.put(
+        `http://localhost:8000/tasks/${updatedTask.id}`,
+        updatedTask
+      );
+      const task = this.tasks.find((task) => task.id === updatedTask.id);
+      task.complete = !task.complete;
+    } catch (error) {
+      console.log("Taskstore -> fetchTasks -> error", error);
     }
   };
 }

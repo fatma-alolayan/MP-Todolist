@@ -1,15 +1,16 @@
 import { decorate, observable } from "mobx";
 import axios from "axios";
 
-// data
-import tasks from "../tasks";
-
 class TaskStore {
   tasks = [];
 
   fetchTasks = async () => {
-    const response = await axios.get("http://localhost:8000/tasks");
-    this.tasks = response.data;
+    try {
+      const response = await axios.get("http://localhost:8000/tasks");
+      this.tasks = response.data;
+    } catch (error) {
+      console.error("Taskstore -> fetchTasks -> error", error);
+    }
   };
 
   createTask = (newTask) => {
@@ -18,8 +19,13 @@ class TaskStore {
     this.tasks.push(newTask);
   };
 
-  deleteTask = (taskId) => {
-    this.tasks = this.tasks.filter((task) => task.id !== +taskId);
+  deleteTask = async (taskId) => {
+    try {
+      await axios.delete(`http://localhost:8000/tasks/${taskId}`);
+      this.tasks = this.tasks.filter((task) => task.id !== +taskId);
+    } catch (error) {
+      console.log();
+    }
   };
 }
 

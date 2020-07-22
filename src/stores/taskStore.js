@@ -1,9 +1,16 @@
 import { decorate, observable } from "mobx";
+import axios from "axios";
+
 // data
 import tasks from "../tasks";
 
 class TaskStore {
-  tasks = tasks;
+  tasks = [];
+
+  fetchTasks = async () => {
+    const response = await axios.get("http://localhost:8000/tasks");
+    this.tasks = response.data;
+  };
 
   createTask = (newTask) => {
     newTask.id = this.tasks[this.tasks.length - 1].id + 1;
@@ -19,5 +26,6 @@ class TaskStore {
 decorate(TaskStore, { tasks: observable });
 
 const taskStore = new TaskStore();
+taskStore.fetchTasks();
 
 export default taskStore;

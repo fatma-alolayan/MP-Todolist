@@ -7,7 +7,12 @@ class TaskStore {
 
   createTask = (newTask) => {
     newTask.id = this.tasks[this.tasks.length - 1].id + 1;
+    newTask.complete = false;
     this.tasks.push(newTask);
+  };
+
+  deleteTask = (taskId) => {
+    this.tasks = this.tasks.filter((task) => task.id !== +taskId);
   };
 }
 

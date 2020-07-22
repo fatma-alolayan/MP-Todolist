@@ -3,8 +3,8 @@ import { observer } from "mobx-react";
 
 //Components
 import AddButton from "../buttons/AddButton";
-import CompletedList from "../CompletedList";
-import TaskItem from "./TaskItem";
+
+import TaskItem from "../TaskList/TaskItem";
 
 //Stores
 import taskStore from "../../stores/taskStore";
@@ -13,9 +13,7 @@ import taskStore from "../../stores/taskStore";
 import { ListWrapper } from "../../styles";
 
 const TaskList = () => {
-  const filteredList = taskStore.tasks.filter(
-    (task) => task.complete === false
-  );
+  const filteredList = taskStore.tasks.filter((task) => task.complete === true);
 
   const taskList = filteredList.map((task) => (
     <TaskItem task={task} key={task.id} />
@@ -23,12 +21,8 @@ const TaskList = () => {
 
   return (
     <div>
-      <h1>To Do List</h1>
+      <h1>Completed List</h1>
       <ListWrapper>{taskList}</ListWrapper>
-
-      <AddButton />
-      {/* <button > completed</button> */}
-      <CompletedList />
     </div>
   );
 };

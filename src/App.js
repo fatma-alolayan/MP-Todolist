@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TaskList from "./components/TaskList";
-
+import { Title } from "./styles";
 //Data
 import tasks from "./tasks";
 
@@ -12,6 +12,7 @@ function App() {
   };
   return (
     <div>
+      <Title>MY TASK LIST</Title>
       <TaskList createTask={createTask} />
     </div>
   );

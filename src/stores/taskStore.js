@@ -16,6 +16,7 @@ class TaskStore {
   createTask = async (newTask) => {
     try {
       newTask.complete = false;
+      newTask.id = this.tasks[this.tasks.length - 1].id + 1;
       this.tasks.push(newTask);
       const res = await axios.post("http://localhost:8000/tasks", newTask);
     } catch (error) {
@@ -38,8 +39,9 @@ class TaskStore {
         `http://localhost:8000/tasks/${updatedTask.id}`,
         updatedTask
       );
-      const task = this.tasks.find((task) => task.id === updatedTask.id);
-      task.complete = !updatedTask.complete;
+      // const task = this.tasks.find((task) => task.id === updatedTask.id);
+      // task.complete = !updatedTask.complete;
+      updatedTask.complete = !updatedTask.complete;
     } catch (error) {
       console.log("Taskstore -> fetchTasks -> error", error);
     }
